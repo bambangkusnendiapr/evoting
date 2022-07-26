@@ -1,0 +1,50 @@
+version: '3.7'
+services:
+  # mysql:
+  #   image: mysql:5.7
+  #   restart: always
+  #   volumes:
+  #     - ./ana-database/:/var/lib/mysql
+  #     - ./mysql.sql:/docker-entrypoint-initdb.d/mysql.sql
+  #   ports:
+  #     - 3306:3306
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: "password"
+  #     MYSQL_DATABASE: "ana_new"
+  #     MYSQL_USER: "root"
+  #     MYSQL_PASSWORD: "password"
+  web:
+    image: 'pemudapersis/ana-new:latest'
+    volumes:
+      - /var/log/docker-data/evoting:/app/storage/logs
+    environment:
+      - DB_CONNECTION=mysql
+      - DB_HOST=167.71.197.153
+      - DB_PORT=3306
+      - DB_DATABASE=evoting
+      - DB_USERNAME=root
+      - MAIL_DRIVER=${PROD_MAIL_DRIVER}
+      - MAIL_HOST=${PROD_MAIL_HOST}
+      - MAIL_PORT=${PROD_MAIL_PORT}
+      - MAIL_USERNAME=${PROD_MAIL_USERNAME}
+      - MAIL_PASSWORD=${PROD_MAIL_PASSWORD}
+      - MAIL_ENCRYPTION=${PROD_MAIL_ENCRYPTION}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+      - AWS_BUCKET=${AWS_BUCKET_DEV}
+    # depends_on:
+    #   - mysql
+  nginx:
+    image: 'bitnami/nginx:latest'
+    depends_on:
+      - web
+    ports:
+      - '8090:8080'
+      - '8443:443'
+    volumes:
+      - ./public/css:/app/public/css
+      - ./public/js:/app/public/js
+      - ./public/fonts:/app/public/fonts
+      - ./public/media:/app/public/media
+      - ./web.conf:/opt/bitnami/nginx/conf/server_blocks/web.conf

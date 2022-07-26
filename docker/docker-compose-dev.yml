@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  web:
+    container_name: ${CONTAINER_APP_DEV}
+    image: ${REPOSITORY_ECR_URL}:${TAG_ANA}
+    volumes:
+      - ./docker-data/evoting/logs:/var/www/evoting/storage/logs:rw
+      - ./.env:/var/www/evoting/.env
+    environment:
+      - DB_CONNECTION=${MYSQL_CONNECTION_DEV}
+      - DB_HOST=${MYSQL_HOST_DEV}
+      - DB_PORT=${MYSQL_PORT_DEV}
+      - DB_DATABASE=${MYSQL_DATABASE_DEV}
+      - DB_USERNAME=${MYSQL_USER_DEV}
+      - DB_PASSWORD=${MYSQL_PASSWORD_DEV}
+      - APP_ENV=${APP_ENV}
+      - APP_KEY=${APP_KEY}
+      - SESSION_DRIVER=${SESSION_DRIVER}
+      - MAIL_DRIVER=${PROD_MAIL_DRIVER}
+      - MAIL_HOST=${PROD_MAIL_HOST}
+      - MAIL_PORT=${PROD_MAIL_PORT}
+      - MAIL_USERNAME=${PROD_MAIL_USERNAME}
+      - MAIL_PASSWORD=${PROD_MAIL_PASSWORD}
+      - MAIL_ENCRYPTION=${PROD_MAIL_ENCRYPTION}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+      - AWS_BUCKET=${AWS_BUCKET_DEV}
+    ports:
+      - ${PORT_MAPPING_DEV}:8080
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:4.7
+    environment:
+      PMA_HOST: ${MYSQL_HOST_DEV}
+    ports:
+      - ${PORT_MAPPING_PHPMYADMIN_DEV}:80
+
+

@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  evoting-db:
+    container_name: evoting-evoting-db
+    image: mysql:8.0
+    command: [ '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password' ]
+    restart: always
+    volumes:
+      - ./evoting-database/:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: evoting
+      MYSQL_USER: evoting
+      MYSQL_PASSWORD: evoting2020
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: evoting2020
+    ports:
+      - 3306:3306
+  web:
+    container_name: evoting-app
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    volumes:
+      - /var/log/docker-data/evoting:/app/storage/logs
+    environment:
+      - DB_CONNECTION=mysql
+      - DB_HOST=evoting-db
+      - DB_PORT=3306
+      - DB_DATABASE=evoting
+      - DB_USERNAME=evoting
+      - DB_PASSWORD=evoting2020
+    depends_on:
+      - evoting-db
+    ports:
+      - 80:8080
+  phpmyadmin:
+    container_name: evoting-phpmyadmin
+    image: phpmyadmin/phpmyadmin:4.7
+    environment:
+      PMA_HOST: evoting-db
+    depends_on:
+      - evoting-db
+    ports:
+      - 8000:80
