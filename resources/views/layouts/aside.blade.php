@@ -35,7 +35,7 @@ $tokenBakalCalon = \App\TokenBakalCalon::all();
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
                 <li class="nav-item has-treeview menu-open">
-                    <a href="{{url('dashboard')}}" class="nav-link active">
+                    <a href="{{url('dashboard')}}" class="nav-link {{ (request()->segment(1) == 'dashboard') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
@@ -57,14 +57,14 @@ $tokenBakalCalon = \App\TokenBakalCalon::all();
                     </a>
                 </li>
                 <li class="nav-item has-treeview menu-open">
-                    <a href="{{url('candidat')}}" class="nav-link">
+                    <a href="{{url('candidat')}}" class="nav-link {{ (request()->segment(1) == 'candidat') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-address-book"></i>
                         <p>Data Kandidat <span class="right badge badge-primary"> {{ count($kandidat) }}</span></p>
                     </a>
                 </li>
 
                 <li class="nav-item has-treeview menu-open">
-                    <a href="{{url('voter')}}" class="nav-link">
+                    <a href="{{url('voter')}}" class="nav-link {{ (request()->segment(1) == 'voter') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-users"></i>
                         <p>Data Pemilih <span class="right badge badge-warning"> {{ count($pemilih) }}</span></p>
                     </a>
@@ -72,13 +72,13 @@ $tokenBakalCalon = \App\TokenBakalCalon::all();
                 
                 <li class="nav-header">BAKAL CALON KETUA</li>
                 <li class="nav-item has-treeview menu-open">
-                    <a href="{{ route('bakal.index') }}" class="nav-link">
+                    <a href="{{ route('bakal.index') }}" class="nav-link {{ (request()->segment(1) == 'bakal') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-users"></i>
                         <p>Bakal Calon Ketua <span class="right badge badge-warning"> {{ count($bakalCalon) }}</span></p>
                     </a>
                 </li>
                 <li class="nav-item has-treeview menu-open">
-                    <a href="{{ route('token.bakal') }}" class="nav-link">
+                    <a href="{{ route('token.bakal') }}" class="nav-link {{ (request()->segment(1) == 'token-bakal-calon') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-clipboard-list"></i>
                         <p>Token Bakal Calon <span class="right badge badge-warning"> {{ count($tokenBakalCalon) }}</span></p>
                     </a>

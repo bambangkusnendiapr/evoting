@@ -53,7 +53,15 @@ class DashboardController extends Controller
         ->color($borderColors)
             ->backgroundcolor($fillColors);
 
-        return view('dashboard.index', compact('title', 'kandidat', 'pemilih', 'jumlahhaksuara', 'sudahvoting', 'belumvoting', 'usersChart'));
+        // dd('masuk');
+        return view('dashboard.index', 
+        compact('title', 
+        'kandidat', 
+        'pemilih', 
+        'jumlahhaksuara', 
+        'sudahvoting', 
+        'belumvoting', 
+        'usersChart'));
     }
 
     public function store(Request $request)
